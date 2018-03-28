@@ -101,11 +101,11 @@ import UIKit
 
 /*
  
- Exposes a public array of auto complete strings and two booleans for controlling behaviour.
+ Exposes a public variables for controlling behaviour.
  
  usage:
  
- myAutoCompletetextField.autoCompleteStrings = ["MK10 0AB", "W1T 3NQ"]
+ myAutoCompletetextField.accessoryStrings = ["MK10 0AB", "W1T 3NQ"]
  the text field will add a non standard input accessory view with only those strings
  
  myAutoCompletetextField.shouldHighlightFilter = true; default is false
@@ -113,6 +113,9 @@ import UIKit
  
  myAutoCompletetextField.testPrefixOnly = true; default is false
  filtering is done on the prefix of the string
+ 
+ myAutoCompletetextField.cellStyle = .wideTwoLine; default is .normalOneLine
+ two styles of cell for you to get started with
  
  */
 
@@ -144,7 +147,7 @@ import UIKit
     @objc public var accessoryStrings : [String]? = .none {
         didSet {
             if accessoryStrings?.count != 0 {
-                self.inputAccessoryView = self.autoCompleteAccessoryView
+                self.inputAccessoryView = self.accessoryView
                 self.autocorrectionType = .no
             }
         }
@@ -156,12 +159,12 @@ import UIKit
     
     @objc public var testPrefixOnly : Bool = false
     
-    lazy internal var autoCompleteAccessoryView : DOMAutoCompleteView? = {
+    lazy internal var accessoryView : UIAccessorizedTextFieldAccessoryView? = {
         
         var frame : CGRect = .zero
         frame.size = self.cellStyle.accessoryViewSize()
         
-        let temp = DOMAutoCompleteView(frame: frame)
+        let temp = UIAccessorizedTextFieldAccessoryView(frame: frame)
         
         temp.backgroundColor = UIColor.clear
         temp.translatesAutoresizingMaskIntoConstraints = false
@@ -210,7 +213,7 @@ import UIKit
     }()
 }
 
-class DOMAutoCompleteView : UIView {
+class UIAccessorizedTextFieldAccessoryView : UIView {
     internal var viewSize : CGSize = .zero
     
     override init(frame: CGRect) {
@@ -459,7 +462,7 @@ internal class UIAccessorizedTextFieldCollectionViewCellNormalOneLine : UIAccess
 
 internal class UIAccessorizedTextFieldCollectionViewCellWideTwoLine : UIAccessorizedTextFieldCollectionViewCell {
     public override class func identifier() -> String {
-        return "DOMAutoCompleteCollectionViewCellROI"
+        return "UIAccessorizedTextFieldCollectionViewCellWideTwoLine"
     }
     
     override var hPadding: CGFloat {
